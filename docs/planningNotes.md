@@ -1,2 +1,45 @@
 # Project Planning
-Hey all, sorry I can't make the meeting on Sunday. Just wanted to throw out some ideas: I know Shivram was talking about Cookie Clicker games and I also think those would be a great idea. I was looking through https://cookie-clicker.co/ for some ideas, and honestly I like the idea of just the basic cookie clicker game, and I am also slightly biased towards making a Doodle Jumpesque game (https://cookie-clicker.co/doodle-jump). To fit the specifications of the assignment, our database would not be too complicated. We can have a 'create user/login' and maybe do some cool displays with hiscores and such. I don't know too much about form verification and database accessing, but after assignment 4 I don't think it would be too far of a stretch for me to learn if needed. Also, A thing I was thinking about was hosting. I'm not sure if we need to actively host our project on a webpage, but I do know that people have recommended Netlify as a free resource that supports Node and Express. I looked into GitHub pages, but from what I've seen they have no serverside support so I don't think it's an option. Let me know thoughts, and I'll talk to you all soon!
+
+Potential projects: cookie clicking game, platformer game
+
+Final project idea: cookie clicking game
+
+Front end pages:
+
+- Login/signup page
+- Gameplay page
+- User page (login history)
+- Leaderboards page
+- Page for one user's scores
+
+API functionality:
+
+- Creates(/updates) accounts - (unique) username, password → use email to create account
+- Interaction - login history (timestamps), timestamps of games, scores for each game for each user
+- Get max/high score (general, over all users)
+- Get scores, timestamp for each user
+- Push scores after each game
+- Delete accounts
+
+Game functionality:
+
+- Create an account
+- Delete account
+- Login to account
+- Click on a cookie (to play game)
+- Display/update the number of clicks
+- Timer countdown - starting the count and what happens when the time ends
+- (Potentially) Add further button/click options past a certain number of clicks
+
+Pull request style:
+
+- Everyone works on separate feature/development branches, and merged together
+
+Timeline:
+
+- Rough draft done by Friday evening
+- More detailed branch and timeline tracking on GitHub project board
+
+License:
+
+- The existing GPL-3.0 license will be sufficient for this project
