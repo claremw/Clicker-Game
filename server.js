@@ -18,11 +18,12 @@ app.listen(HTTP_PORT, () => {
 });
 
 
-// READ (HTTP method GET) at root endpoint /app/
-app.get("/app/", (req, res, next) => {
-    res.json({"message":"Your API works! (200)"});
-	res.status(200);
-});
+// load css and rendering our html
+app.use(express.static(__dirname)); //load css
+
+app.get('/',function(req,res){
+	res.sendFile(__dirname+'/index.html');
+  });
 
 
 // CREATE a new user (HTTP method POST) at endpoint /app/new
