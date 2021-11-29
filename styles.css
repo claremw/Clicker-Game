@@ -134,17 +134,21 @@ body {
 	color: #7e6b5b;
 }
 
-.lighter:hover {
-	cursor: pointer;
-}
-
 a {
 	text-decoration: none;
 	color: #592a00;
 }
 
+a:hover {
+	cursor: pointer;
+}
+
 .lighter a {
 	color: #7e6b5b;
+}
+
+.red a {
+	color: red !important;
 }
 
 .userInfoBox {
