@@ -20,7 +20,7 @@ body {
 }
 
 .header h1 {
-	padding: 30px;
+	padding: 0 30px 30px 30px;
 }
 
 .splash {
@@ -29,6 +29,15 @@ body {
 	background-image: url('/cookies.svg');
 	background-repeat: no-repeat;
 	background-size: cover;
+	top: 0;
+}
+
+.splashLeft {
+	left: 0;
+}
+
+.splashRight {
+	right: 0;
 }
 
 .content {
@@ -55,6 +64,12 @@ body {
 
 	.splash {
 		display: none;
+	}
+}
+
+@media screen and (max-height: 645px) {
+	.content {
+		height: 100%;
 	}
 }
 
