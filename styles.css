@@ -13,7 +13,7 @@ body {
 .header {
 	font-size: 40px;
 	text-align: center;
-	margin: 40px 20px 0 20px;
+	margin: 40px 0 0 0;
 	text-shadow: -4px 10px 18px rgb(58, 0, 0, 0.25);
 	width: 100%;
 	font-family: Brush Script MT, Brush Script Std, cursive;
@@ -30,6 +30,7 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	top: 0;
+	position: fixed;
 }
 
 .splashLeft {
@@ -42,11 +43,15 @@ body {
 
 .content {
 	width: 60%;
+	height: 100vh;
+	overflow: scroll;
+}
+
+.contentFlex {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	height: 100vh;
 }
 
 .right {
@@ -78,7 +83,7 @@ body {
 	border-radius: 50px;
 	background: #faebd7;
 	box-shadow: -15px 15px 45px #d5c8b7, 15px -15px 45px #f7ebd9;
-	margin: 0 40px 40px 40px;
+	margin: 0 40px 60px 40px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -105,7 +110,7 @@ body {
 	font-size: large;
 }
 
-.loginText {
+.hText {
 	font-weight: normal;
 	margin: 15px;
 }
@@ -140,4 +145,32 @@ a {
 
 .lighter a {
 	color: #7e6b5b;
+}
+
+.userInfoBox {
+	background-color: rgb(252, 245, 224);
+	border-radius: 20px;
+	background: #faebd7;
+	box-shadow: -15px 15px 45px #d5c8b7, 15px -15px 45px #f7ebd9;
+	margin: 0 40px 60px 40px;
+	text-align: left;
+	padding: 10px;
+}
+
+table {
+	font-weight: normal;
+	width: 90%;
+	margin: 20px;
+}
+
+td,
+th {
+	border: 1px solid #d5c8b7;
+	text-align: left;
+	padding: 8px;
+}
+
+th,
+tr:nth-child(even) {
+	background-color: #d5c8b7;
 }
