@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/jdmar3-comp426/a99-another-team#readme",
   "dependencies": {
-    "browser-sync": "^2.27.7"
+    "better-sqlite3": "^7.4.5",
+    "browser-sync": "^2.27.7",
+    "express": "^4.17.1",
+    "md5": "^2.3.0"
   }
 }
