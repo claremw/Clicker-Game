@@ -71,6 +71,19 @@ app.delete("/app/delete/user/:id", (req, res) => {
 	res.json({"message": "1 record deleted: ID " + req.params.id + " (200)"});
 });
 
+app.get("/app/games", (req, res) => {	
+	const stmt = db.prepare("SELECT * FROM games").all();
+	res.status(200).json(stmt);
+});
+
+app.get("/app/logins", (req, res) => {	
+	const stmt = db.prepare("SELECT * FROM logins").all();
+	res.status(200).json(stmt);
+});
+
+
+
+
 // Default response for any other request
 app.use(function(req, res){
 	res.json({"message":"Endpoint not found. (404)"});
