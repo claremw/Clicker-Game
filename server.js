@@ -33,7 +33,7 @@ app.post("/app/new", (req, res) => {
 		res.json("Email is already taken");
 	} else if (userCheck) {
 		res.json("Username is already taken");
-	}else {
+	} else {
 		const stmt = db.prepare('INSERT INTO userinfo (email, user, pass) VALUES (?, ?, ?)');
 		const info = stmt.run(req.body.email, req.body.user, md5(req.body.pass));
 		res.json("Account successfully created!");
