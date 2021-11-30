@@ -17,6 +17,12 @@ app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 
+// READ (HTTP method GET) at root endpoint /app/
+app.get("/app/", (req, res, next) => {
+    res.json({"message":"Your API works! (200)"});
+	res.status(200);
+});
+
 // CREATE a new user (HTTP method POST) at endpoint /app/new
 app.post("/app/new", (req, res) => {
 	const emailQuery = db.prepare('SELECT * from userinfo WHERE email =?');
@@ -65,9 +71,8 @@ app.delete("/app/delete/user/:id", (req, res) => {
 	res.json({"message": "1 record deleted: ID " + req.params.id + " (200)"});
 });
 
-
+// Default response for any other request
 app.use(function(req, res){
-	res.json({"message":"Your API is working!"});
+	res.json({"message":"Endpoint not found. (404)"});
     res.status(404);
 });
-
