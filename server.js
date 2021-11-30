@@ -26,9 +26,9 @@ app.get("/app/", (req, res, next) => {
 // CREATE a new user (HTTP method POST) at endpoint /app/new
 app.post("/app/new", (req, res) => {
 	const emailQuery = db.prepare('SELECT * from userinfo WHERE email =?');
-	const UserQuery = db.prepare('SELECT * from userinfo WHERE user =?');
+	const userQuery = db.prepare('SELECT * from userinfo WHERE user =?');
 	const emailCheck = emailQuery.get(req.body.email);
-	const userCheck = UserQuery.get(req.body.user);
+	const userCheck = userQuery.get(req.body.user);
 	if (emailCheck) {
 		res.json("Email is already taken");
 	} else if (userCheck) {
