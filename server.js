@@ -23,8 +23,6 @@ app.post("/app/new", (req, res) => {
 	const UserQuery = db.prepare('SELECT * from userinfo WHERE user =?');
 	const emailCheck = emailQuery.get(req.body.email);
 	const userCheck = UserQuery.get(req.body.user);
-	console.log(emailCheck);
-	console.log(userCheck);
 	if (emailCheck) {
 		res.json("Email is already taken");
 	} else if (userCheck) {
