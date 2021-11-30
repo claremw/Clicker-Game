@@ -1,36 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width-device-width, initial-scale:1.0">
-    <title>Create Account – Cookie Clicker</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="cookie.svg" type="image/x-icon">
-  </head>
-  <body>
-    <div class="content contentFlex right">
-      <div class="header">
-        <h1>Cookie Clicker</h1>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width-device-width, initial-scale:1.0">
+  <title>Create Account – Cookie Clicker</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="cookie.svg" type="image/x-icon">
+</head>
+
+<body>
+  <div class="content contentFlex right">
+    <div class="header">
+      <h1>Cookie Clicker</h1>
+    </div>
+    <div class="main">
+      <div class="loginBox">
+        <form id="accountForm">
+          <h1 class="hText">Create an account</h1>
+          <h3 class="hText lighter">
+            <a href="/">
+              Have have an account?
+              <br />
+              <u>Go back.</u>
+            </a>
+          </h3>
+          <input class="loginField" placeholder="Email address" name="email" />
+          <input class="loginField" placeholder="Choose a username" name="user" />
+          <input class="loginField" type="password" placeholder="Password" name="pass" />
+          <button class="submit">Sign up!</button>
+        </form>
       </div>
-      <div class="main">
-        <div class="loginBox">
-          <form>
-            <h1 class="hText">Create an account</h1>
-            <h3 class="hText lighter">
-              <a href="/">
-                Have have an account?
-                <br />
-                <u>Go back.</u>
-              </a>
-            </h3>
-            <input class="loginField" placeholder="Email address" />
-            <input class="loginField" placeholder="Choose a username" />
-            <input class="loginField" type="password" placeholder="Password"/>
-            <button class="submit">Sign up!</button>
-          </form>
-        </div>
-      </div>
-    </div> 
-    <div class="splash left splashLeft" />
-  </body>
+    </div>
+  </div>
+  <div class="splash left splashLeft"></div>
+  <script>
+    window.addEventListener("load", function () {
+      function sendData() {
+        const XHR = new XMLHttpRequest();
+
+        // Bind the FormData object and the form element
+        const FD = new FormData(form);
+
+        // Define what happens on successful data submission
+        XHR.addEventListener("load", function (event) {
+          alert(event.target.responseText);
+        });
+
+        // Define what happens in case of error
+        XHR.addEventListener("error", function (event) {
+          alert('XHR did not work properly');
+        });
+
+        // Set up our request
+        XHR.open("POST", "http://localhost:3000/app/new");
+        XHR.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        // The data sent is what the user provided in the form
+        var formIterator = FD.values();
+        var email = formIterator.next().value;
+        var user = formIterator.next().value;
+        var pass = formIterator.next().value;
+        XHR.send("email="+email+"&user="+user+"&pass="+pass);
+      }
+
+      // Access the form element...
+      const form = document.getElementById("accountForm");
+
+      // ...and take over its submit event.
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        sendData();
+      });
+    });
+  </script>
+
+</body>
+
 </html>
