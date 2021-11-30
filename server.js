@@ -5,32 +5,37 @@ var app = express();
 var db = require("./database.js");
 // Require md5 MODULE
 var md5 = require("md5");
+var cors = require("cors");
 // Make Express use its own built-in body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-
+app.use(cors());
 // Set server port
-var HTTP_PORT = 5000;
+var HTTP_PORT = 3000;
 // Start server
 app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 
-
-// load css and rendering our html
-app.use(express.static(__dirname)); //load css
-
-app.get('/',function(req,res){
-	res.sendFile(__dirname+'/index.html');
-  });
-
-
 // CREATE a new user (HTTP method POST) at endpoint /app/new
 app.post("/app/new", (req, res) => {
-	const stmt = db.prepare('INSERT INTO userinfo (email, user, pass) VALUES (?, ?, ?)');
-	const info = stmt.run(req.body.email, req.body.user, md5(req.body.pass));
-	res.json({"message": "1 record created: ID " + info.lastInsertRowid + " (201)"});
+	const emailQuery = db.prepare('SELECT * from userinfo WHERE email =?');
+	const UserQuery = db.prepare('SELECT * from userinfo WHERE user =?');
+	const emailCheck = emailQuery.get(req.body.email);
+	const userCheck = UserQuery.get(req.body.user);
+	console.log(emailCheck);
+	console.log(userCheck);
+	if (emailCheck) {
+		res.json("Email is already taken");
+	} else if (userCheck) {
+		res.json("Username is already taken");
+	}else {
+		const stmt = db.prepare('INSERT INTO userinfo (email, user, pass) VALUES (?, ?, ?)');
+		const info = stmt.run(req.body.email, req.body.user, req.body.pass);
+		res.json("Account successfully created!");
+	}
+	
+	//res.json({"message": "1 record created: ID " + info.lastInsertRowid + " (201)"});
 });
 
 // READ a list of all users (HTTP method GET) at endpoint /app/users/
@@ -67,3 +72,4 @@ app.use(function(req, res){
 	res.json({"message":"Your API is working!"});
     res.status(404);
 });
+

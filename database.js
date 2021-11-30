@@ -5,7 +5,7 @@ const Database = require('better-sqlite3');
 // Connect to a database or create one if it doesn't exist yet.
 const db = new Database('user.db');
 
-// Is the database initialized or do we need to initialize it?
+// create users database
 const stmt = db.prepare(`SELECT name FROM sqlite_master WHERE type='table' and name='userinfo';`);
 let row = stmt.get();
 if (row === undefined) {
@@ -15,6 +15,7 @@ if (row === undefined) {
     const sqlInit = `
         CREATE TABLE userinfo ( id INTEGER PRIMARY KEY, email TEXT, user TEXT, pass TEXT );
 		INSERT INTO userinfo (email, user, pass) VALUES ('someone@live.unc.edu', 'admin','bdc87b9c894da5168059e00ebffb9077')
+
     `;
 // Execute SQL commands that we just wrote above.
     db.exec(sqlInit);
