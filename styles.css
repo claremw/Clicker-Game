@@ -47,6 +47,10 @@ body {
 	overflow: scroll;
 }
 
+.contentFull {
+	height: 100vh;
+}
+
 .contentFlex {
 	display: flex;
 	align-items: center;
@@ -130,6 +134,10 @@ body {
 	cursor: pointer;
 }
 
+.submit a {
+	color: antiquewhite;
+}
+
 .lighter {
 	color: #7e6b5b;
 }
@@ -177,4 +185,108 @@ th {
 th,
 tr:nth-child(even) {
 	background-color: #d5c8b7;
+}
+
+.startGame {
+	background-image: url('/startGame.png');
+	width: 200px;
+	height: 200px;
+	background-size: cover;
+	filter: drop-shadow(-6px 6px 10px rgba(46, 16, 0, 0.685));
+	margin: 20px;
+	display: block;
+	cursor: pointer;
+}
+
+.startGame:hover {
+	filter: drop-shadow(-4px 4px 8px rgba(46, 16, 0, 0.685));
+}
+
+.startGame:active {
+	filter: drop-shadow(-2px 2px 5px rgba(46, 16, 0, 0.685));
+}
+
+.dashboardBtn {
+	padding: 15px;
+	font-size: larger;
+	border-radius: 12px;
+	border-style: none;
+	background: #eeddc7;
+	box-shadow: -7px 7px 14px #cfc0ad, 7px -7px 14px #fffae1;
+	margin: 15px;
+	cursor: pointer;
+}
+
+.dashboardBtn:hover {
+	box-shadow: -4px 4px 8px #cfc0ad, 4px -4px 8px #fffae1;
+}
+
+.dashboardSignOut {
+	background: #e5d5c0;
+}
+
+.gameBox {
+	background-color: rgb(252, 245, 224);
+	border-radius: 20px;
+	background: #faebd7;
+	box-shadow: -8px 8px 25px #d5c8b7, 8px -8px 25px #f7ebd9;
+	margin: 40px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: fit-content;
+	text-align: center;
+	padding: 20px;
+}
+
+.gameCookie {
+	background-image: url('/cookie.svg');
+	width: 250px;
+	height: 250px;
+	background-size: cover;
+	filter: drop-shadow(-10px 10px 20px rgba(82, 29, 0, 0.685));
+	margin: 20px;
+	display: block;
+	cursor: pointer;
+}
+
+.gameCookie:hover {
+	filter: drop-shadow(-8px 8px 15px rgba(82, 29, 0, 0.685));
+}
+
+.gameCookie:active {
+	filter: drop-shadow(-4px 4px 10px rgba(82, 29, 0, 0.685));
+}
+
+.noselect {
+	user-select: none;
+}
+
+.scoreColumn {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	width: 200px;
+	height: 100%;
+	margin: 20px;
+}
+
+.countCell {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	margin: 10px;
+	padding-bottom: -20px;
+	border-radius: 20px;
+	background: #f7e8d4;
+	box-shadow: -4px 4px 10px #d5c8b7, 4px -4px 10px #f7ebd9;
+}
+
+.flexStart {
+	justify-content: flex-start;
+}
+
+.inline {
+	display: inline;
 }
