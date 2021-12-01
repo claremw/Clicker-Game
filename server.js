@@ -17,23 +17,26 @@ app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 
+// READ (HTTP method GET) at root endpoint /app/
+app.get("/app/", (req, res, next) => {
+    res.status(200).json({"message":"Your API works! (200)"});
+});
+
 // CREATE a new user (HTTP method POST) at endpoint /app/new
 app.post("/app/new", (req, res) => {
 	const emailQuery = db.prepare('SELECT * from userinfo WHERE email =?');
-	const UserQuery = db.prepare('SELECT * from userinfo WHERE user =?');
+	const userQuery = db.prepare('SELECT * from userinfo WHERE user =?');
 	const emailCheck = emailQuery.get(req.body.email);
-	const userCheck = UserQuery.get(req.body.user);
+	const userCheck = userQuery.get(req.body.user);
 	if (emailCheck) {
-		res.json("Email is already taken");
+		res.status(409).json("Email is already taken (409)");
 	} else if (userCheck) {
-		res.json("Username is already taken");
-	}else {
+		res.status(409).json("Username is already taken (409)");
+	} else {
 		const stmt = db.prepare('INSERT INTO userinfo (email, user, pass) VALUES (?, ?, ?)');
-		const info = stmt.run(req.body.email, req.body.user, req.body.pass);
-		res.json("Account successfully created!");
+		const info = stmt.run(req.body.email, req.body.user, md5(req.body.pass));
+		res.json({"message": "1 record created: ID " + info.lastInsertRowid + " (201)"});
 	}
-	
-	//res.json({"message": "1 record created: ID " + info.lastInsertRowid + " (201)"});
 });
 
 // READ a list of all users (HTTP method GET) at endpoint /app/users/
@@ -53,21 +56,89 @@ app.get("/app/user/:id", (req, res) => {
 //Updating a user (if we want to implement name, password, or email changes)
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
 app.patch("/app/update/user/:id", (req, res) => {
-	const stmt = db.prepare("UPDATE userinfo SET email = ?, user = ?, pass = ? WHERE id = ?");
+	const stmt = db.prepare("UPDATE userinfo SET email = COALESCE(?, email), user = COALESCE(?, user), pass = COALESCE(?, pass) WHERE id = ?");
 	const info = stmt.run(req.body.email, req.body.user, md5(req.body.pass), req.params.id);
-	res.json({"message": "1 record updated: ID " + req.params.id + " (200)"});
+	res.status(200).json({"message": "1 record updated: ID " + req.params.id + " (200)"});
 });
 
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
 app.delete("/app/delete/user/:id", (req, res) => {
-	const stmt = db.prepare("DELETE FROM userinfo WHERE id = ?");
-	const info = stmt.run(req.params.id);
-	res.json({"message": "1 record deleted: ID " + req.params.id + " (200)"});
+	const userStmt = db.prepare("DELETE FROM userinfo WHERE id = ?");
+	const userInfo = userStmt.run(req.params.id);
+	const gamesStmt = db.prepare("DELETE FROM games WHERE user = ?");
+	const gamesInfo = gamesStmt.run(req.params.id);
+	const loginsStmt = db.prepare("DELETE FROM logins WHERE user = ?");
+	const loginsInfo = loginsStmt.run(req.params.id);
+	const changes = userInfo.changes + gamesInfo.changes + loginsInfo.changes;
+	res.status(200).json({"message": `${changes} record${changes == 1? "" : "s"} deleted with ID ${req.params.id} (200)`});
 });
 
+app.get("/app/games/user/:id", (req, res) => {	
+	const stmt = db.prepare("SELECT * FROM games WHERE user = ?");
+	const info = stmt.all(req.params.id);
+	res.status(200).json(info);
+});
 
+app.get("/app/logins/user/:id", (req, res) => {	
+	const stmt = db.prepare("SELECT * FROM logins WHERE user = ?");
+	const info = stmt.all(req.params.id);
+	res.status(200).json(info);
+});
+
+app.get("/app/games", (req, res) => {	
+	const stmt = db.prepare("SELECT * FROM games").all();
+	res.status(200).json(stmt);
+});
+
+app.get("/app/logins", (req, res) => {	
+	const stmt = db.prepare("SELECT * FROM logins").all();
+	res.status(200).json(stmt);
+});
+
+app.post("/app/score", (req, res) => {
+	const stmt = db.prepare("INSERT INTO games (user, time, score) VALUES (?, strftime('%s','now'), ?)");
+	const info = stmt.run(req.body.user, req.body.score);
+	res.status(201).json({"message":`1 record created: ID ${info.lastInsertRowid} (201)`});
+});
+
+app.post("/app/login", (req, res) => {
+	const stmt = db.prepare("INSERT INTO logins (user, time) VALUES (?, strftime('%s','now'))");
+	const info = stmt.run(req.body.user);
+	res.status(201).json({"message":`1 record created: ID ${info.lastInsertRowid} (201)`});
+});
+
+app.get("/app/leaderboard/:n", (req, res) => {	
+	const stmt = db.prepare("SELECT * FROM games ORDER BY score DESC, time ASC LIMIT ?");
+	const info = stmt.all(req.params.n);
+	res.status(200).json(info);
+});
+
+app.get("/app/leaderboard/user/:id/:n", (req, res) => {	
+	const stmt = db.prepare("SELECT * FROM games WHERE user = ? ORDER BY score DESC, time ASC LIMIT ?");
+	const info = stmt.all(req.params.id, req.params.n);
+	res.status(200).json(info);
+});
+
+// seems like a really insecure way of doing this but ¯\_(ツ)_/¯
+// in reality we should perform the hash on the client side
+app.get("/app/authenticate", (req, res) => {
+	const userStmt = db.prepare("SELECT id, user FROM userinfo WHERE email = ?");
+	const userResult = userStmt.get(req.body.email);
+	if (userResult === undefined) {
+		res.status(404).json({"message": "User not found (404)"});
+	} else {
+		const passStmt = db.prepare("SELECT pass FROM userinfo where email = ?");
+		const passResult = passStmt.get(req.body.email);
+		if (md5(req.body.pass) != passResult.pass) {
+			res.status(403).json({"message": "Incorrect password. Access denied (403)"});
+		} else {
+			res.status(200).json(userResult);
+		}
+	}
+});
+
+// Default response for any other request
 app.use(function(req, res){
-	res.json({"message":"Your API is working!"});
+	res.json({"message":"Endpoint not found. (404)"});
     res.status(404);
 });
-
