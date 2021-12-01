@@ -178,3 +178,41 @@ th,
 tr:nth-child(even) {
 	background-color: #d5c8b7;
 }
+
+.startGame {
+	background-image: url('/startGame.png');
+	width: 200px;
+	height: 200px;
+	background-size: cover;
+	filter: drop-shadow(-6px 6px 10px rgba(46, 16, 0, 0.685));
+	margin: 20px;
+	display: block;
+	cursor: pointer;
+}
+
+.startGame:hover {
+	filter: drop-shadow(-4px 4px 8px rgba(46, 16, 0, 0.685));
+}
+
+.startGame:active {
+	filter: drop-shadow(-2px 2px 5px rgba(46, 16, 0, 0.685));
+}
+
+.dashboardBtn {
+	padding: 15px;
+	font-size: larger;
+	border-radius: 12px;
+	border-style: none;
+	background: #eeddc7;
+	box-shadow: -7px 7px 14px #cfc0ad, 7px -7px 14px #fffae1;
+	margin: 15px;
+	cursor: pointer;
+}
+
+.dashboardBtn:hover {
+	box-shadow: -4px 4px 8px #cfc0ad, 4px -4px 8px #fffae1;
+}
+
+.dashboardSignOut {
+	background: #e5d5c0;
+}
