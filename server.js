@@ -119,6 +119,24 @@ app.get("/app/leaderboard/user/:id/:n", (req, res) => {
 	res.status(200).json(info);
 });
 
+// seems like a really insecure way of doing this but ¯\_(ツ)_/¯
+// in reality we should perform the hash on the client side
+app.get("/app/authenticate", (req, res) => {
+	const userStmt = db.prepare("SELECT id, user FROM userinfo WHERE email = ?");
+	const userResult = userStmt.get(req.body.email);
+	if (userResult === undefined) {
+		res.status(404).json({"message": "User not found (404)"});
+	} else {
+		const passStmt = db.prepare("SELECT pass FROM userinfo where email = ?");
+		const passResult = passStmt.get(req.body.email);
+		if (md5(req.body.pass) != passResult.pass) {
+			res.status(403).json({"message": "Incorrect password. Access denied (403)"});
+		} else {
+			res.status(200).json(userResult);
+		}
+	}
+});
+
 // Default response for any other request
 app.use(function(req, res){
 	res.json({"message":"Endpoint not found. (404)"});
