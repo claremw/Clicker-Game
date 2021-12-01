@@ -47,6 +47,10 @@ body {
 	overflow: scroll;
 }
 
+.contentFull {
+	width: 100%;
+}
+
 .contentFlex {
 	display: flex;
 	align-items: center;
@@ -128,6 +132,10 @@ body {
 .submit:hover {
 	box-shadow: -2px 5px 9px rgb(58, 0, 0, 0.25);
 	cursor: pointer;
+}
+
+.submit a {
+	color: antiquewhite;
 }
 
 .lighter {
