@@ -4,7 +4,9 @@ var app = express();
 // Require express session
 var session = require('express-session');
 // Require database SCRIPT file
-var db = require("./database.js");
+var databases = require("./database.js");
+var db = databases.db;
+var scoresDB = databases.scoreDB
 // Require md5 MODULE
 var md5 = require("md5");
 
