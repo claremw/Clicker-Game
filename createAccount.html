@@ -25,9 +25,9 @@
               <u>Go back.</u>
             </a>
           </h3>
-          <input class="loginField" placeholder="Email address" name="email" />
-          <input class="loginField" placeholder="Choose a username" name="user" />
-          <input class="loginField" type="password" placeholder="Password" name="pass" />
+          <input class="loginField" placeholder="Email address" name="email" required/>
+          <input class="loginField" placeholder="Choose a username" name="user" required/>
+          <input class="loginField" type="password" placeholder="Password" name="pass" required/>
           <button class="submit">Sign up!</button>
         </form>
       </div>
@@ -53,7 +53,7 @@
         });
 
         // Set up our request
-        XHR.open("POST", "http://localhost:3000/app/new");
+        XHR.open("POST", "/app/new");
         XHR.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         // The data sent is what the user provided in the form
         var formIterator = FD.values();

@@ -14,7 +14,7 @@
       </div>
       <div class="main">
         <div class="loginBox">
-          <form>
+          <form id="loginForm" method="post" action="/login">
             <h1 class="hText">Sign in to play!</h1>
             <h3 class="hText lighter">
               <a href="createAccount.html">
@@ -22,14 +22,21 @@
                 <br />
                 <u>Make one here.</u>
               </a>
+              <a href="testGamePage.html">
+                <u>go to Game</u>
+              </a>
             </h3>
-            <input class="loginField" placeholder="Email address" />
-            <input class="loginField" type="password" placeholder="Password"/>
+            <input class="loginField" placeholder="Email address" name = 'email' id="email" required/>
+            <input class="loginField" type="password" placeholder="Password" name = 'pass' required/>
             <button class="submit">Sign in</button>
           </form>
         </div>
       </div>
     </div> 
-    <div class="splash left splashLeft" />
+    <div class="splash left splashLeft"></div>
+  <script>
+
+  </script>
   </body>
+
 </html>
