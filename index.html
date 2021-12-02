@@ -23,17 +23,35 @@
                 <u>Make one here.</u>
               </a>
             </h3>
-            <input class="loginField" placeholder="Email address" />
-            <input class="loginField" type="password" placeholder="Password"/>
-            <button class="submit">
-              <a href="/dashboard.html">
-                Sign in
-              </a>
-            </button>
+            <input class="loginField" type="text" id="email" placeholder="Email address" />
+            <input class="loginField" type="text" id="pass" placeholder="Password"/>
+            <input class="submit" type="button" value="Login" onclick="loginCheck()"/>
           </form>
         </div>
       </div>
     </div> 
     <div class="splash left splashLeft" />
+
+    <script>
+      function loginCheck() {
+        var email = document.getElementById("email").value; 
+        var password = document.getElementById("pass").value; 
+        if (email == null) {
+          alert("Please enter an email.")
+          return false; 
+        }
+        if (password == null) {
+          alert("Please enter a password."); 
+          return false; 
+        }
+        // need to add code here to validate that the email & password combo matches a database entry 
+        // not quite sure how to do this yet... 
+        // here's the code to redirect the window if the login is successful: 
+        else {
+          window.location = "dashboard.html"; 
+          return false; 
+        }
+      }
+    </script>
   </body>
 </html>
