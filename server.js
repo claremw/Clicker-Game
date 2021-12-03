@@ -199,7 +199,7 @@ app.get("/app/getCurrentUserScores", (req, res) => {
 	console.log("Getting Current User Scores and sending it to client");
 	const user = res.locals;
 	const IDQuery = db.prepare('SELECT * from games WHERE user =?');
-	const queryResults = IDQuery.get(user.user.user);
+	const queryResults = IDQuery.all(user.user.user);
 	res.status(200).json(queryResults);
 });
 
@@ -269,13 +269,13 @@ app.get("/app/logins", (req, res) => {
 });
 
 app.post("/app/score", (req, res) => {
-	const stmt = db.prepare("INSERT INTO games (user, time, score) VALUES (?, strftime('%s','now'), ?)");
+	const stmt = db.prepare("INSERT INTO games (user, time, score) VALUES (?, strftime('%Y-%m-%d %H:%M:%S','now'), ?)");
 	const info = stmt.run(req.body.user, req.body.score);
 	res.status(201).json({ "message": `1 record created: ID ${info.lastInsertRowid} (201)` });
 });
 
 app.post("/app/login", (req, res) => {
-	const stmt = db.prepare("INSERT INTO logins (user, time) VALUES (?, strftime('%s','now'))");
+	const stmt = db.prepare("INSERT INTO logins (user, time) VALUES (?, strftime('%Y-%m-%d %H:%M:%S','now'))");
 	const info = stmt.run(req.body.user);
 	res.status(201).json({ "message": `1 record created: ID ${info.lastInsertRowid} (201)` });
 });

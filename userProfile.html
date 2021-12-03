@@ -115,7 +115,7 @@
     }
     //Setting Gameplay history
     if (currentUserScores) {
-      if (currentUserScores instanceof Object) {
+      if (!currentUserScores instanceof Array) {
         //Setup table
         document.getElementById("time0").innerText = currentUserScores.time;
         document.getElementById("score0").innerText = currentUserScores.score;
@@ -128,12 +128,23 @@
           document.getElementById("time" + i).innerText = currentUserScores[currentUserScores.length - 1 - i].time;
           document.getElementById("score" + i).innerText = currentUserScores[currentUserScores.length - 1 - i].score;
         }
+        document.getElementById("hiscore").innerText = "Highest score: " + getUserMaxScore();
+        document.getElementById("gamesPlayed").innerText = "Number of completed games: " + currentUserScores.length;
       }
       console.log("done");
     } else {
       //if no games have been played by the user
       document.getElementById("hiscore").innerText = "No games played";
       document.getElementById("gamesPlayed").innerText = "Number of completed games: " + 0;
+    }
+    function getUserMaxScore() {
+      let max = 0;
+      for (let i = 0; i < currentUserScores.length; i++) {
+        if (currentUserScores[i].score > max) {
+          max = currentUserScores[i].score;
+        }
+      }
+      return max;
     }
 
 
