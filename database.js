@@ -52,7 +52,7 @@ if (loginsResult === undefined) {
 
     `;
     db.exec(sqlInit);
-    console.log('Your games table has been initialized with one entry containing a user and time.');
+    console.log('Your login table has been initialized with one entry containing a user and time.');
 } else {
     console.log('logins exists.');
 }
