@@ -1,65 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width-device-width, initial-scale:1.0">
-    <title>Leaderboard – Cookie Clicker</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="icon" href="cookie.svg" type="image/x-icon">
-  </head>
-  <body>
-    <div class="content left">
-      <div class="header">
-        <h1>Leaderboard</h1>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width-device-width, initial-scale:1.0">
+  <title>Leaderboard – Cookie Clicker</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="cookie.svg" type="image/x-icon">
+</head>
+
+<body>
+
+  <div class="content left">
+    <div class="header">
+      <h1>Leaderboard</h1>
+    </div>
+    <div class="main">
+      <div class="userInfoBox">
+        <h3 class="hText lighter">
+          <a href="/app/dashboard">
+            &larr; Back to dashboard
+          </a>
+        </h3>
+        <h2 class="hText">Top "6" scores</h2>
+        <table>
+          <thead>
+            <th>Timestamp</th>
+            <th>Username</th>
+            <th>Game score</th>
+          </thead>
+          <tr>
+            <td id="timestamp0">"Timestamp"</td>
+            <td id="username0">"Username"</td>
+            <td id="score0">"Game score"</td>
+          </tr>
+          <tr>
+            <td id="timestamp1">"Timestamp"</td>
+            <td id="username1">"Username"</td>
+            <td id="score1">"Game score"</td>
+          </tr>
+          <tr>
+            <td id="timestamp2">"Timestamp"</td>
+            <td id="username2">"Username"</td>
+            <td id="score2">"Game score"</td>
+          </tr>
+          <tr>
+            <td id="timestamp3">"Timestamp"</td>
+            <td id="username3">"Username"</td>
+            <td id="score3">"Game score"</td>
+          </tr>
+          <tr>
+            <td id="timestamp4">"Timestamp"</td>
+            <td id="username4">"Username"</td>
+            <td id="score4">"Game score"</td>
+          </tr>
+          <tr>
+            <td id="timestamp5">"Timestamp"</td>
+            <td id="username5">"Username"</td>
+            <td id="score5">"Game score"</td>
+          </tr>
+        </table>
       </div>
-      <div class="main">
-        <div class="userInfoBox">
-          <h3 class="hText lighter">
-            <a href="/app/dashboard">
-              &larr; Back to dashboard
-            </a>
-          </h3>
-          <h2 class="hText">Top "n" scores</h2>
-          <table>
-            <thead>
-              <th>Timestamp</th>
-              <th>Username</th>
-              <th>Game score</th>
-            </thead>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Username"</td>
-              <td>"Game score"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Username"</td>
-              <td>"Game score"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Username"</td>
-              <td>"Game score"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Username"</td>
-              <td>"Game score"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Username"</td>
-              <td>"Game score"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Username"</td>
-              <td>"Game score"</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div> 
-    <div class="splash right splashRight" />
-  </body>
+    </div>
+  </div>
+  <div class="splash right splashRight" />
+</body>
+<script>
+  //This gets the leaderboard data from the games table and stores it in leaderboardScores
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open("GET", '/app/leaderboardScores', false);
+  xmlHttp.send(null);
+  var leaderboardScores = undefined;
+  if (xmlHttp.responseText) {
+    leaderboardScores = JSON.parse(xmlHttp.responseText);
+    console.log(leaderboardScores);
+  }
+  //setting Leaderboard
+  var displayLeaderboardNumber = Math.min(6, leaderboardScores.length);
+  for (let i = 0; i < displayLeaderboardNumber; i++) {
+    document.getElementById("timestamp" + i).innerText = leaderboardScores[leaderboardScores.length - 1 - i].time;
+    document.getElementById("username" + i).innerText = leaderboardScores[leaderboardScores.length - 1 - i].user;
+    document.getElementById("score" + i).innerText = leaderboardScores[leaderboardScores.length - 1 - i].score;
+  }
+
+
+</script>
+
 </html>

@@ -32,8 +32,8 @@ let gamesResult = gamesQuery.get();
 if (gamesResult === undefined) {
     console.log('Your games table appears to be empty. I will initialize it now.');
     const sqlInit = `
-        CREATE TABLE games ( id INTEGER PRIMARY KEY, user INTEGER, time TEXT, score INTEGER );
-		INSERT INTO games (user, time, score) VALUES (1, strftime('%s','now'), 0)
+        CREATE TABLE games ( id INTEGER PRIMARY KEY, user TEXT, time TEXT, score INTEGER );
+		INSERT INTO games (user, time, score) VALUES ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 0)
 
     `;
     db.exec(sqlInit);

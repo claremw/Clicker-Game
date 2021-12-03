@@ -1,93 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width-device-width, initial-scale:1.0">
-    <title>User Profile – Cookie Clicker</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="icon" href="cookie.svg" type="image/x-icon">
-  </head>
-  <body>
-    <div class="content left">
-      <div class="header">
-        <h1>User profile</h1>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width-device-width, initial-scale:1.0">
+  <title>User Profile – Cookie Clicker</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="cookie.svg" type="image/x-icon">
+</head>
+
+<body>
+  <div class="content left">
+    <div class="header">
+      <h1>User profile</h1>
+    </div>
+    <div class="main">
+      <div class="userInfoBox">
+        <h3 class="hText lighter">
+          <a href="/app/dashboard">
+            &larr; Back to dashboard
+          </a>
+        </h3>
+        <h2 class="hText">Account information</h2>
+        <h3 class="hText" id="email">Email: "email"</h3>
+        <h3 class="hText" id="username">Username: "username"</h3>
+        <h4 class="hText lighter">
+          <a>
+            Update your username
+          </a>
+        </h4>
+        <h3 class="hText">Password: *******</h3>
+        <h4 class="hText lighter">
+          <a>
+            Update your password
+          </a>
+        </h4>
+        <br />
+        <h2 class="hText">Gameplay Stats</h2>
+        <h3 class="hText" id="hiscore">Highest score: ""</h3>
+        <h3 class="hText" id="gamesPlayed">Number of completed games: ""</h3>
+        <br />
+        <h2 class="hText">Gameplay History</h2>
+        <table>
+          <thead>
+            <th>Timestamp</th>
+            <th>Game score</th>
+          </thead>
+          <tr>
+            <td id="time0">"Timestamp"</td>
+            <td id="score0">"Game score"</td>
+          </tr>
+          <tr>
+            <td id="time1">"Timestamp"</td>
+            <td id="score1">"Game score"</td>
+          </tr>
+          <tr>
+            <td id="time2">"Timestamp"</td>
+            <td id="score2">"Game score"</td>
+          </tr>
+          <tr>
+            <td id="time3">"Timestamp"</td>
+            <td id="score3">"Game score"</td>
+          </tr>
+        </table>
+        <br />
+        <h2 class="hText">Account Logins</h2>
+        <table>
+          <thead>
+            <th>Timestamp</th>
+          </thead>
+          <tr>
+            <td id="login0">"Timestamp"</td>
+          </tr>
+          <tr>
+            <td id="login1">"Timestamp"</td>
+          </tr>
+          <tr>
+            <td id="login2">"Timestamp"</td>
+          </tr>
+          <tr>
+            <td id="login3">"Timestamp"</td>
+          </tr>
+        </table>
+        <h4 class="hText red">
+          <a onclick="deleteAccount()">
+            &#10005; Delete your account
+          </a>
+        </h4>
       </div>
-      <div class="main">
-        <div class="userInfoBox">
-          <h3 class="hText lighter">
-            <a href="/app/dashboard">
-              &larr; Back to dashboard
-            </a>
-          </h3>
-          <h2 class="hText">Account information</h2>
-          <h3 class="hText">Email: "email"</h3>
-          <h3 class="hText">Username: "username"</h3>
-          <h4 class="hText lighter">
-            <a>
-              Update your username
-            </a>
-          </h4>
-          <h3 class="hText">Password: *******</h3>
-          <h4 class="hText lighter">
-            <a>
-              Update your password
-            </a>
-          </h4>
-          <br />
-          <h2 class="hText">Gameplay Stats</h2>
-          <h3 class="hText">Highest score: ""</h3>
-          <h3 class="hText">Number of completed games: ""</h3>
-          <br />
-          <h2 class="hText">Gameplay History</h2>
-          <table>
-            <thead>
-              <th>Timestamp</th>
-              <th>Game score</th>
-            </thead>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Game score"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Game score"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Game score"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-              <td>"Game score"</td>
-            </tr>
-          </table>
-          <br />
-          <h2 class="hText">Account Logins</h2>
-          <table>
-            <thead>
-              <th>Timestamp</th>
-            </thead>
-            <tr>
-              <td>"Timestamp"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-            </tr>
-            <tr>
-              <td>"Timestamp"</td>
-            </tr>
-          </table>
-          <h4 class="hText red">
-            <a>
-              &#10005; Delete your account
-            </a>
-          </h4>
-        </div>
-      </div>
-    </div> 
-    <div class="splash right splashRight" />
-  </body>
+    </div>
+  </div>
+  <div class="splash right splashRight" />
+  <script>
+    //This gets the current users data from the userInfo table and stores it in currentUserInfo
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", '/app/getCurrentUser/', false);
+    xmlHttp.send(null);
+    //Current user info ******
+    const currentUserInfo = JSON.parse(xmlHttp.responseText);
+    console.log(currentUserInfo);
+    //Current user's ID #
+    var currId = currentUserInfo.id;
+    var currUser = currentUserInfo.user;
+
+    //This gets the current users data from the scores table and stores it in currentUserScores
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", '/app/getCurrentUserScores/', false);
+    xmlHttp.send(null);
+    //have to use if because there might be no scores for a person
+    var currentUserScores = undefined;
+    if (xmlHttp.responseText) {
+      currentUserScores = JSON.parse(xmlHttp.responseText);
+      console.log(currentUserScores);
+    }
+    //Setting Gameplay history
+    if (currentUserScores) {
+      if (currentUserScores instanceof Object) {
+        //Setup table
+        document.getElementById("time0").innerText = currentUserScores.time;
+        document.getElementById("score0").innerText = currentUserScores.score;
+        //Setup Gameplay stats
+        document.getElementById("hiscore").innerText = "Highest score: " + currentUserScores.score;
+        document.getElementById("gamesPlayed").innerText = "Number of completed games: " + 1;
+      } else {
+        var displayLoginNumber = Math.min(4, currentUserScores.length);
+        for (let i = 0; i < displayLoginNumber; i++) {
+          document.getElementById("time" + i).innerText = currentUserScores[currentUserScores.length - 1 - i].time;
+          document.getElementById("score" + i).innerText = currentUserScores[currentUserScores.length - 1 - i].score;
+        }
+      }
+      console.log("done");
+    } else {
+      //if no games have been played by the user
+      document.getElementById("hiscore").innerText = "No games played";
+      document.getElementById("gamesPlayed").innerText = "Number of completed games: " + 0;
+    }
+
+
+    //get Login table data
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", '/app/logins/user/' + currUser + '/', false);
+    xmlHttp.send(null);
+    //have to use if because there might be no logins for a person
+    var loginTableData = undefined;
+    if (xmlHttp.responseText) {
+      loginTableData = JSON.parse(xmlHttp.responseText);
+      console.log(loginTableData);
+    }
+
+    //setting Account Logins
+    var displayLoginNumber = Math.min(4, loginTableData.length);
+    for (let i = 0; i < displayLoginNumber; i++) {
+      document.getElementById("login" + i).innerText = loginTableData[loginTableData.length - 1 - i].time;
+    }
+
+
+    //Function to delete account
+    function deleteAccount() {
+      var xmlHttp = new XMLHttpRequest();
+
+      console.log("CurrID:" + currId);
+      xmlHttp.open("DELETE", '/app/delete/user/' + currId + '/', false);
+      xmlHttp.send(null);
+      window.location.href = "/app";
+      console.log("Account Deleted");
+    }
+
+    //Setting HTML to User Attributes
+    document.getElementById("email").innerText = "Email: " + currentUserInfo.email;
+    document.getElementById("username").innerText = "Username: " + currentUserInfo.user;
+
+
+
+
+  </script>
+</body>
+
 </html>
