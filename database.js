@@ -33,8 +33,8 @@ if (gamesResult === undefined) {
     console.log('Your games table appears to be empty. I will initialize it now.');
     const sqlInit = `
         CREATE TABLE games ( id INTEGER PRIMARY KEY, user TEXT, time TEXT, score INTEGER );
-		INSERT INTO games (user, time, score) VALUES ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 0)
-
+		INSERT INTO games (user, time, score) VALUES ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 0),
+        ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 300), ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 150)
     `;
     db.exec(sqlInit);
     console.log('Your games table has been initialized with one entry containing a user, time, and score.');

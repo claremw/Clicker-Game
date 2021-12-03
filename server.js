@@ -198,14 +198,14 @@ app.get("/app/getCurrentUser", (req, res) => {
 app.get("/app/getCurrentUserScores", (req, res) => {
 	console.log("Getting Current User Scores and sending it to client");
 	const user = res.locals;
-	const IDQuery = db.prepare('SELECT * from games WHERE id =?');
-	const queryResults = IDQuery.get(user.user.id);
+	const IDQuery = db.prepare('SELECT * from games WHERE user =?');
+	const queryResults = IDQuery.get(user.user.user);
 	res.status(200).json(queryResults);
 });
 
 //get entire leaderboard, scores high to low
 app.get("/app/leaderboardScores", (req, res) => {
-	const stmt = db.prepare("SELECT * FROM games ORDER BY score DESC").all();
+	const stmt = db.prepare("SELECT * FROM games ORDER BY score").all();
 	res.status(200).json(stmt);
 });
 
