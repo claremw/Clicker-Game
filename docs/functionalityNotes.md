@@ -24,3 +24,33 @@ PLAY.HTML:
 LEADERBOARD.HTML: 
 - Need to populate with info from the database 
 
+
+
+(this is emmy) im gonna start writing formal documentation in here alongside the notes already here, we can move it wherever 
+# Front End Documentation
+## index.html
+Here, a user signs in to play the game using their email and password. If they don't have an account, they can create one (see `createaccount.html)`. 
+
+...fill in stuff about loginCheck when we figure out how to check it w database
+
+## createaccount.html
+Here, a user can create an account. If they already have an account, they have the option to click back to the main page (`index.html`) and log in. They are prompted to fill in their email address, and choose a username and password.
+
+...?
+
+## dashboard.html
+The dashboard contains three links--> one to redirect the user to their user profile (`userprofile.html`), one to redirect the user to the Leaderboardss (`leaderboard.html`), and the option to sign out (...insert functionality piece here)
+
+## userprofile.html
+The user profile page lists a users account information (email, username, and password (*'d out)) and the option to update an individual's username or password.
+
+It also displays . . . 
+
+## play.html
+. . . 
+
+## leaderboard.html
+. . . 
+
+
+
