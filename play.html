@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width-device-width, initial-scale:1.0">
     <title>Play! - Cookie Clicker</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <link rel="icon" href="cookie.svg" type="image/x-icon">
   </head>
   <body class="noselect">
@@ -16,7 +16,7 @@
         Click the cookie as fast as you can before the time runs out!
         <br />
         Think you can beat the 
-        <a href="/leaderboard.html"><u>high score</u></a>? 
+        <a href="/app/leaderboard"><u>high score</u></a>? 
         Start clicking to play!
       </h4>
       <div class="gameBox">
@@ -33,7 +33,13 @@
           </div>
         </div>
       </div>
-      <div class="loginBox"><a href="/dashboard.html"><u>Back to dashboard</u></a></div>
+      <div class="loginBox"><a href="/app/dashboard"><u>Back to dashboard</u></a></div>
     </div>
+    <script>
+      //TODO: Once the game ends we need to send the score to the database
+      function sendResults() {
+        
+      }
+    </script>
   </body>
 </html>
