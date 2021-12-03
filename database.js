@@ -37,7 +37,7 @@ if (gamesResult === undefined) {
         ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 300), ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 150)
     `;
     db.exec(sqlInit);
-    console.log('Your games table has been initialized with one entry containing a user, time, and score.');
+    console.log('Your games table has been initialized with three entries containing a user, time, and score.');
 } else {
     console.log('games exists.');
 }

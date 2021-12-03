@@ -132,11 +132,8 @@
         document.getElementById("gamesPlayed").innerText = "Number of completed games: " + currentUserScores.length;
       }
       console.log("done");
-    } else {
-      //if no games have been played by the user
-      document.getElementById("hiscore").innerText = "No games played";
-      document.getElementById("gamesPlayed").innerText = "Number of completed games: " + 0;
     }
+    
     function getUserMaxScore() {
       let max = 0;
       for (let i = 0; i < currentUserScores.length; i++) {
