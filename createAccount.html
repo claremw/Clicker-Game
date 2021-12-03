@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width-device-width, initial-scale:1.0">
   <title>Create Account – Cookie Clicker</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/styles.css">
   <link rel="icon" href="cookie.svg" type="image/x-icon">
 </head>
 
@@ -16,10 +16,10 @@
     </div>
     <div class="main">
       <div class="loginBox">
-        <form id="accountForm">
+        <form id="accountForm" method="post" action="/app/new">
           <h1 class="hText">Create an account</h1>
           <h3 class="hText lighter">
-            <a href="/">
+            <a href="/app">
               Have have an account?
               <br />
               <u>Go back.</u>
@@ -28,7 +28,7 @@
           <input class="loginField" placeholder="Email address" name="email" />
           <input class="loginField" placeholder="Choose a username" name="user" />
           <input class="loginField" type="password" placeholder="Password" name="pass" />
-          <a href="/">
+          <a href="/app"> 
             <button class="submit">
               Sign up!
             </button>
@@ -39,7 +39,7 @@
   </div>
   <div class="splash left splashLeft"></div>
   <script>
-    window.addEventListener("load", function () {
+    /*window.addEventListener("load", function () {
       function sendData() {
         const XHR = new XMLHttpRequest();
 
@@ -57,7 +57,7 @@
         });
 
         // Set up our request
-        XHR.open("POST", "http://localhost:3000/app/new");
+        XHR.open("POST", "/app/new");
         XHR.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         // The data sent is what the user provided in the form
         var formIterator = FD.values();
@@ -77,6 +77,7 @@
         sendData();
       });
     });
+    */
   </script>
 
 </body>

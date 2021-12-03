@@ -3,12 +3,14 @@ var express = require("express");
 var app = express();
 // Require database SCRIPT file
 var db = require("./database.js");
+var path = require('path');
 // Require md5 MODULE
 var md5 = require("md5");
 var cors = require("cors");
 // Make Express use its own built-in body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 app.use(cors());
 // Set server port
 var HTTP_PORT = 3000;
@@ -17,25 +19,56 @@ app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 
+app.set('base', '/app');
+app.use(express.static(path.join(__dirname, 'public')));
 // READ (HTTP method GET) at root endpoint /app/
-app.get("/app/", (req, res, next) => {
-    res.status(200).json({"message":"Your API works! (200)"});
+app.get("/app", (req, res, next) => {
+	res.sendFile(__dirname + '/index.html');
+    //res.status(200).json({"message":"Your API works! (200)"});
 });
+
+// going to the create user page
+app.get('/app/createAccount', (req, res) => {
+	res.sendFile(__dirname + '/createAccount.html');
+});
+
+// going to the play page
+app.get('/app/play', (req, res) => {
+	res.sendFile(__dirname + '/play.html');
+});
+
+// going to the leaderboard page
+app.get('/app/leaderboard', (req, res) => {
+	res.sendFile(__dirname + '/leaderboard.html');
+});
+
+// going to the userProfile page
+app.get('/app/userProfile', (req, res) => {
+	res.sendFile(__dirname + '/userProfile.html');
+})
+
+// going to the userProfile page
+app.get('/app/dashboard', (req, res) => {
+	res.sendFile(__dirname + '/dashboard.html');
+})
+
 
 // CREATE a new user (HTTP method POST) at endpoint /app/new
 app.post("/app/new", (req, res) => {
+	console.log(req.body);
 	const emailQuery = db.prepare('SELECT * from userinfo WHERE email =?');
 	const userQuery = db.prepare('SELECT * from userinfo WHERE user =?');
 	const emailCheck = emailQuery.get(req.body.email);
 	const userCheck = userQuery.get(req.body.user);
 	if (emailCheck) {
-		res.status(409).json("Email is already taken (409)");
+		//res.status(409).json("Email is already taken (409)");
 	} else if (userCheck) {
-		res.status(409).json("Username is already taken (409)");
+		//res.status(409).json("Username is already taken (409)");
 	} else {
 		const stmt = db.prepare('INSERT INTO userinfo (email, user, pass) VALUES (?, ?, ?)');
 		const info = stmt.run(req.body.email, req.body.user, md5(req.body.pass));
-		res.json({"message": "1 record created: ID " + info.lastInsertRowid + " (201)"});
+		//res.json({"message": "1 record created: ID " + info.lastInsertRowid + " (201)"});
+		return res.redirect('/app/play');
 	}
 });
 
@@ -122,10 +155,12 @@ app.get("/app/leaderboard/user/:id/:n", (req, res) => {
 // seems like a really insecure way of doing this but ¯\_(ツ)_/¯
 // in reality we should perform the hash on the client side
 app.get("/app/authenticate", (req, res) => {
+	console.log(req.body);
 	const userStmt = db.prepare("SELECT id, user FROM userinfo WHERE email = ?");
 	const userResult = userStmt.get(req.body.email);
 	if (userResult === undefined) {
-		res.status(404).json({"message": "User not found (404)"});
+		res.status(404).json({"message": "Email not found (404)"});
+		//res.redirect('/app');
 	} else {
 		const passStmt = db.prepare("SELECT pass FROM userinfo where email = ?");
 		const passResult = passStmt.get(req.body.email);
@@ -133,9 +168,30 @@ app.get("/app/authenticate", (req, res) => {
 			res.status(403).json({"message": "Incorrect password. Access denied (403)"});
 		} else {
 			res.status(200).json(userResult);
+			res.redirect('/app/play');
 		}
 	}
 });
+
+app.post("/app/authenticate", (req, res) => {
+	console.log(req.body);
+	const userStmt = db.prepare("SELECT id, user FROM userinfo WHERE email = ?");
+	const userResult = userStmt.get(req.body.email);
+	if (userResult === undefined) {
+		res.status(404).json({"message": "Email not found (404)"});
+	} else {
+		const passStmt = db.prepare("SELECT pass FROM userinfo where email = ?");
+		const passResult = passStmt.get(req.body.email);
+		if (md5(req.body.pass) != passResult.pass) {
+			res.status(403).json({"message": "Incorrect password. Access denied (403)"});
+		} else {
+			//res.status(200).json(userResult);
+			return res.redirect('/app/play');
+		}
+	}
+});
+
+
 
 // Default response for any other request
 app.use(function(req, res){
