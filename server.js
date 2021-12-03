@@ -138,7 +138,7 @@ app.post("/app/new", (req, res) => {
 		const stmt = db.prepare('INSERT INTO userinfo (email, user, pass) VALUES (?, ?, ?)');
 		const info = stmt.run(req.body.email, req.body.user, md5(req.body.pass));
 		//res.json({"message": "1 record created: ID " + info.lastInsertRowid + " (201)"});
-		return res.redirect('/app/play');
+		return res.redirect('/app');
 	}
 });
 //login post
