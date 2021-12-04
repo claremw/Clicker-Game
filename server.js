@@ -136,7 +136,7 @@ app.post("/app/new", (req, res) => {
     //res.status(409).json("Username is already taken (409)");
   } else {
     const stmt = db.prepare('INSERT INTO userinfo (email, user, pass) VALUES (?, ?, ?)');
-    const info = stmt.run(req.body.email, req.body.user, md5(req.body.pass));
+    const info = stmt.run(req.body.email, req.body.user, (req.body.pass));
     //res.json({"message": "1 record created: ID " + info.lastInsertRowid + " (201)"});
     return res.redirect('/app');
   }
@@ -153,7 +153,7 @@ app.post("/app/authenticate", (req, res) => {
 	} else {
 		const passStmt = db.prepare("SELECT pass FROM userinfo where email = ?");
 		const passResult = passStmt.get(req.body.email);
-		if (md5(req.body.pass) != passResult.pass) {
+		if ((req.body.pass) != passResult.pass) {
 			console.log("Login attempt: Wrong Password");
 			return res.redirect('/app');
 			//res.status(403).json({"message": "Incorrect password. Access denied (403)"});
@@ -228,9 +228,30 @@ app.get("/app/user/:id", (req, res) => {
 //Updating a user (if we want to implement name, password, or email changes)
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
 app.patch("/app/update/user/:id", (req, res) => {
+  console.log(req.body)
+  //Update userinfo
   const stmt = db.prepare("UPDATE userinfo SET email = COALESCE(?, email), user = COALESCE(?, user), pass = COALESCE(?, pass) WHERE id = ?");
-  const info = stmt.run(req.body.email, req.body.user, md5(req.body.pass), req.params.id);
-  res.status(200).json({ "message": "1 record updated: ID " + req.params.id + " (200)" });
+  const info = stmt.run(req.body.email, req.body.user, (req.body.pass), req.params.id);
+
+  //res.status(200).json({ "message": "1 record updated: ID " + req.params.id + " (200)" });
+  console.log("User updated");
+  res.redirect('/app/userProfile');
+});
+
+//When a user changes their name, the logins and games tables need to be updated
+// UPDATE a single user's games (HTTP method PATCH) at endpoint /app/update/user/:id
+app.patch("/app/update/gamesAndLogins/:user", (req, res) => {
+  console.log(req.body)
+  
+  const stmt = db.prepare("UPDATE games SET user = ? where user = ?");
+  const info = stmt.run(req.body.user, req.body.oldUser);
+
+  const stmt2 = db.prepare("UPDATE logins SET user = ? where user = ?");
+  const info2 = stmt2.run(req.body.user, req.body.oldUser);
+
+  //res.status(200).json({ "message": "1 record updated: ID " + req.params.id + " (200)" });
+  console.log("Games and Login updated");
+  res.redirect('back');
 });
 
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
