@@ -25,13 +25,13 @@
         <h3 class="hText" id="email">Email: "email"</h3>
         <h3 class="hText" id="username">Username: "username"</h3>
         <h4 class="hText lighter">
-          <a>
+          <a onclick="updateUsername()">
             Update your username
           </a>
         </h4>
         <h3 class="hText">Password: *******</h3>
         <h4 class="hText lighter">
-          <a>
+          <a onclick="updatePassword()">
             Update your password
           </a>
         </h4>
@@ -178,8 +178,32 @@
     document.getElementById("email").innerText = "Email: " + currentUserInfo.email;
     document.getElementById("username").innerText = "Username: " + currentUserInfo.user;
 
+    // update username
+    function updateUsername() {
+      var xmlHttp = new XMLHttpRequest();
 
+      result = prompt("Enter your new username:", "");
 
+      if (result === "") {
+        alert("Not a valid username. Please try again.")
+      } else {
+        // TODO: send request here
+        console.log(result);
+      }
+    }
+
+    function updatePassword() {
+      var xmlHttp = new XMLHttpRequest();
+
+      result = prompt("Enter your new password:", "");
+
+      if (result === "") {
+        alert("Not a valid username. Please try again.")
+      } else {
+        // TODO: send request here
+        console.log(result);
+      }
+    }
 
   </script>
 </body>
