@@ -1,4 +1,5 @@
 ## Description
+How fast can you click? Play our cookie clicker game to find out.
 
 ## Installation Requirements/Instructions
 All that needs to be done is to clone the repository!
