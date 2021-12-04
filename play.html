@@ -20,16 +20,16 @@
         Start clicking to play!
       </h4>
       <div class="gameBox">
-        <div id="cookie" class="gameCookie splashLeft"></div>
+        <div id="cookie" class="gameCookie splashLeft" onclick="startTimer(); update();"></div>
         <div class="scoreColumn">
           <div class="countCell">
-            <h2 class="hText inline">Cookies: 32</h2>
+            <h2 class="hText inline">Cookies: <span id="button">0</span></h2>
           </div>
           <div class="countCell">
-            <h2 id="timer" class="hText inline">Time: 30</h2>
+            <h2 class="hText inline">Time: 0:0<span id="timer">3</span></h2>
           </div>
           <div class="countCell">
-            <h3 class="hText">High score: 32</h3>
+            <h3 class="hText">High score: <span id="highscore">32</span></h3>
           </div>
         </div>
       </div>
@@ -37,34 +37,68 @@
     </div>
 
     <script>
-      //TODO: Once the game ends we need to send the score to the database
-      function sendResults() {
-        
+      // Initialize current user
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", '/app/getCurrentUser/', false);
+      xmlHttp.send(null);
+      const currentUserInfo = JSON.parse(xmlHttp.responseText);
+      var currUser = currentUserInfo.user;
+
+      // Initialize high score
+      xmlHttp.open("GET", '/app/highscore/', false);
+      xmlHttp.send(null);
+      const highscore = JSON.parse(xmlHttp.responseText)['MAX(score)'];
+      document.getElementById("highscore").innerHTML = highscore;
+
+      let started = false;      // The countdown has not yet started
+      let allowClick = true;    // Clicks are allowed until countdown ends
+      let count = 0;            // Count of clicks
+      let button = document.getElementById("button");     // The cookie button
+
+      // Function to send the results after the game is over
+      function sendResults(score) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("post", '/app/score/', false);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.send("user="+currUser+"&score="+score);
+        console.log(xmlHttp.responseText);
       }
 
-      // Timer 
-      // add an event listener to the timer 
-      var cookieButton = document.getElementById("cookie"); 
-      cookieButton.addEventListener("click", countdown); 
-      // Countdown function, when time <= 0, countdown returns false 
+      // Function to start the countdown timer
+      function startTimer() {
+        if (!started) {
+          started = true;
+          countdown();
+        }
+      }
+
+      // Function to let the clicks update
+      function update() {
+        if (allowClick) {
+          button.innerHTML = ++count;
+          if (count > highscore) {
+            document.getElementById("highscore").innerHTML = count;
+          }
+        }
+      }
+
+      // Function on the countdown loop; sends results at the end
       function countdown() {
-        var seconds = 30; 
-        var counter = setInterval(function() {
-          seconds--; 
-          document.getElementById("timer").innerHTML = "Time: " + seconds;  
+        let seconds = 3;            // how long game lasts
+        // decrement counter while time still remaining; send results at end
+        let counter = setInterval(function() { 
+          document.getElementById("timer").innerHTML = --seconds;  
           if (seconds <= 0) {
+            button.innerHTML = count;
+            allowClick = false;
+            sendResults(count); 
             clearInterval(counter); 
-            alert("Out of time"); 
-            // need to make sure this is all we need to do to interact with the database 
-            sendResults(); 
+            alert("Out of time! Your score is " + count); 
             return false; 
           }
         }, 1000);
-        
-        
       }; 
 
     </script>
-
   </body>
 </html>
