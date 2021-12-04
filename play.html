@@ -50,7 +50,6 @@
       document.getElementById("highscore").innerHTML = highscore;
 
       let started = false;      // The countdown has not yet started
-      let allowClick = true;    // Clicks are allowed until countdown ends
       let count = 0;            // Count of clicks
       let button = document.getElementById("button");     // The cookie button
 
@@ -73,11 +72,9 @@
 
       // Function to let the clicks update
       function update() {
-        if (allowClick) {
-          button.innerHTML = ++count;
-          if (count > highscore) {
-            document.getElementById("highscore").innerHTML = count;
-          }
+        button.innerHTML = ++count;
+        if (count > highscore) {
+          document.getElementById("highscore").innerHTML = count;
         }
       }
 
@@ -89,13 +86,16 @@
           document.getElementById("timer").innerHTML = --seconds;  
           if (seconds <= 0) {
             button.innerHTML = count;
-            allowClick = false;
             sendResults(count); 
             clearInterval(counter); 
-            alert("Out of time! Your score is " + count); 
+            alert("Out of time! Your score is " + count + ". Start clicking to play again."); 
+            started = false;
+            count = 0;
+            seconds = 3;
             return false; 
           }
         }, 1000);
+        document.getElementById("timer").innerHTML = seconds;  
       }; 
 
     </script>
