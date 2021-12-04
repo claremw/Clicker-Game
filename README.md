@@ -1,3 +1,28 @@
+## Description
+
+## Installation Requirements/Instructions
+All that needs to be done is to clone the repository
+
+## Dependency List
+    "better-sqlite3": "^7.4.5",
+    "browser-sync": "^2.27.7",
+    "concurrently": "^6.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "md5": "^2.3.0",
+    "path": "^0.12.7"
+    
+## Run Instructions
+- Open a new terminal
+- run "npm install" to install necessary packages and dependencies (which are included in the package.json file and written above)
+- run "npm run server" to start the server
+- Open up your browser of choice and go to "http://localhost:3000/app"
+
+
+
+
+
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=6391708&assignment_repo_type=AssignmentRepo)
 # a99 Finally
 
