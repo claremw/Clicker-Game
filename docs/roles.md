@@ -8,4 +8,4 @@ Shivram: planning lead, front-end design lead
 
 Emmy: documentation lead
 
-James: review management
+James: review management and user account/database management
