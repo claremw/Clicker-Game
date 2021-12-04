@@ -18,6 +18,7 @@ var HTTP_PORT = 3000;
 // Start server
 app.listen(HTTP_PORT, () => {
   console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT))
+  console.log("Visit 'http://localhost:3000/app' to start playing!");
 });
 
 
