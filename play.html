@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width-device-width, initial-scale:1.0">
-    <title>Play! - Cookie Clicker</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="icon" href="cookie.svg" type="image/x-icon">
-  </head>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width-device-width, initial-scale:1.0">
+  <title>Play! - Cookie Clicker</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="cookie.svg" type="image/x-icon">
+</head>
   <body class="noselect">
     <div class="contentFlex flexStart">
       <div class="header">
@@ -33,15 +34,39 @@
           </div>
         </div>
       </div>
-      <div class="loginBox"><a href="/app/dashboard"><u>Back to dashboard</u></a></div>
     </div>
 
-    <script>
-      //TODO: Once the game ends we need to send the score to the database
-      function sendResults() {
-        
-      }
+    <div class="loginBox"><a href="/app/dashboard"><u>Back to dashboard</u></a></div>
+  </div>
+  
+  <script>
 
+    
+    //Load this score variable and then call sendResults() to push the game results to the database
+    var score = 0;
+    
+    //This gets the current users data from the userInfo table and stores it in currentUserInfo
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", '/app/getCurrentUser/', false);
+    xmlHttp.send(null);
+    //Current user info ******
+    const currentUserInfo = JSON.parse(xmlHttp.responseText);
+    console.log(currentUserInfo);
+    //Current user's ID #
+    var currId = currentUserInfo.id;
+    var currUser = currentUserInfo.user;
+
+
+    //TODO: Once the game ends we need to send the score to the database
+    function sendResults() {
+      console.log(currUser);
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("post", '/app/score/', false);
+      xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlHttp.send("user="+currUser+"&score="+score);
+      console.log(xmlHttp.responseText);
+    }
+    
       // Timer 
       // add an event listener to the timer 
       var cookieButton = document.getElementById("cookie"); 
@@ -63,8 +88,9 @@
         
         
       }; 
+    
+    
+  </script>
+</body>
 
-    </script>
-
-  </body>
 </html>
