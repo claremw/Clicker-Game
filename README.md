@@ -26,4 +26,4 @@ All that needs to be done is to clone the repository!
 https://github.com/jdmar3-comp426/a99-another-team/tree/main/docs
 
 ## Demo
-Youtube:
+Youtube: https://youtu.be/2l3cGAGYOG8
