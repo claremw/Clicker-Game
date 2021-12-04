@@ -27,10 +27,10 @@
             <h2 id="scoreCount" class="hText inline">Cookies: 0</h2>
           </div>
           <div class="countCell">
-            <h2 id="timer" class="hText inline">Time: 30</h2>
+            <h2 id="timer" class="hText inline">Time: 0:03</h2>
           </div>
           <div class="countCell">
-            <h3 id="highScore" class="hText"></h3>
+            <h3 id="highScore" class="hText">High Score: </h3>
           </div>
         </div>
       </div>
@@ -41,38 +41,30 @@
   
   <script>
 
-    
-    //Load this score variable and then call sendResults() to push the game results to the database
-    var score = 0;
-    
-    //This gets the current users data from the userInfo table and stores it in currentUserInfo
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", '/app/getCurrentUser/', false);
-    xmlHttp.send(null);
-    //Current user info ******
-    const currentUserInfo = JSON.parse(xmlHttp.responseText);
-    console.log(currentUserInfo);
-    //Current user's ID #
-    var currId = currentUserInfo.id;
-    var currUser = currentUserInfo.currUser; 
-
-    // update the user's high score 
-    // Should we have it display the current user's high score or the overall? 
-    // need to fix this 
-    var highest = 0; 
-    document.getElementById("highScore").innerHTML = "High Score: " + highest; 
-    // then need to make sure it updates every time the timer finishes 
-
-    //TODO: Once the game ends we need to send the score to the database
-    function sendResults() {
-      console.log(currUser);
+      // Initialize current user
       var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open("post", '/app/score/', false);
-      xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xmlHttp.send("user="+currUser+"&score="+score);
-      console.log(xmlHttp.responseText);
-    }
-    
+      xmlHttp.open("GET", '/app/getCurrentUser/', false);
+      xmlHttp.send(null);
+      const currentUserInfo = JSON.parse(xmlHttp.responseText);
+      var currUser = currentUserInfo.user;
+
+      // Initialize high score
+      xmlHttp.open("GET", '/app/highscore/', false);
+      xmlHttp.send(null);
+      const highscore = JSON.parse(xmlHttp.responseText)['MAX(score)'];
+      document.getElementById("highScore").innerHTML = "High Score: " + highscore;
+
+      // Function to send the results after the game is over
+       function sendResults(score) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("post", '/app/score/', false);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.send("user="+currUser+"&score="+score);
+        console.log(xmlHttp.responseText);
+      }
+
+
+    var score = 0; 
       // Timer 
       var cookieButton = document.getElementById("cookie"); 
       cookieButton.addEventListener("click", countdown, {once : true}); 
@@ -85,7 +77,7 @@
         score = 0; 
         var counter = setInterval(function() {
           seconds--; 
-          document.getElementById("timer").innerHTML = "Time: " + seconds;  
+          document.getElementById("timer").innerHTML = "Time: 0:0" + seconds;  
           if (seconds <= 0) {
             clearInterval(counter); 
             alert("Out of time"); 

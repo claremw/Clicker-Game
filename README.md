@@ -18,7 +18,7 @@ All that needs to be done is to clone the repository
 - Open the folder in VSCode
 - Open a new terminal (Terminal -> New Terminal)
 - run "npm install" to install necessary packages and dependencies (which are included in the package.json file and written above)
-- run "npm run server" to start the server
+- run "npm run start" to start the server
 - Open up your browser of choice and go to "http://localhost:3000/app"
 
 ## More Documentation
