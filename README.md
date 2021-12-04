@@ -14,6 +14,11 @@ All that needs to be done is to clone the repository!
     "md5": "^2.3.0",
     "path": "^0.12.7"
     
+    - Hosted server with Node.js and Express
+    - Used path, express-session, and cors to handle login sessions
+    - Used concurrently and browser-sync for development
+    - Used better-sqlite for database and md5 for password hashing
+    
 ## Run Instructions
 - Find the folder where you cloned the repository
 - Open the folder in VSCode
