@@ -24,7 +24,7 @@
         <div id="cookie" class="gameCookie splashLeft"></div>
         <div class="scoreColumn">
           <div class="countCell">
-            <h2 class="hText inline">Cookies: 32</h2>
+            <h2 id="scoreCount" class="hText inline">Cookies: 0</h2>
           </div>
           <div class="countCell">
             <h2 id="timer" class="hText inline">Time: 30</h2>
@@ -68,25 +68,34 @@
     }
     
       // Timer 
-      // add an event listener to the timer 
       var cookieButton = document.getElementById("cookie"); 
-      cookieButton.addEventListener("click", countdown); 
+      cookieButton.addEventListener("click", countdown, {once : true}); 
+      cookieButton.addEventListener("click", incrementScore); 
+      var score = 0; 
       // Countdown function, when time <= 0, countdown returns false 
       function countdown() {
-        var seconds = 30; 
+        var seconds = 3; 
+        timerDone = true; 
+        score = 0; 
         var counter = setInterval(function() {
           seconds--; 
           document.getElementById("timer").innerHTML = "Time: " + seconds;  
           if (seconds <= 0) {
             clearInterval(counter); 
             alert("Out of time"); 
-            // need to make sure this is all we need to do to interact with the database 
             sendResults(); 
-            return false; 
+            cookieButton.removeEventListener("click", countdown, {once : true}); 
+            cookieButton.addEventListener("click", countdown, {once : true}); 
+            score = 0; 
+            document.getElementById("timer").innerHTML = "Time: 30"; 
+            document.getElementById("scoreCount").innerHTML = "Cookies: 0"; 
+            return false;  
           }
         }, 1000);
-        
-        
+      };
+      function incrementScore() {
+        score += 1; 
+        document.getElementById("scoreCount").innerHTML = "Cookies: " + score; 
       }; 
     
     
