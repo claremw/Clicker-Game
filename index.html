@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width-device-width, initial-scale:1.0">
-    <title>Cookie Clicker!</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="cookie.svg" type="image/x-icon">
-  </head>
-  <body>
-    <div class="content contentFlex right">
-      <div class="header">
-        <h1>Cookie Clicker</h1>
-      </div>
-      <div class="main">
-        <div class="loginBox">
-          <form>
-            <h1 class="hText">Sign in to play!</h1>
-            <h3 class="hText lighter">
-              <a href="createAccount.html">
-                Don't have an account?
-                <br />
-                <u>Make one here.</u>
-              </a>
-            </h3>
-            <input class="loginField" type="text" id="email" placeholder="Email address" />
-            <input class="loginField" type="text" id="pass" placeholder="Password"/>
-            <input class="submit" type="button" value="Login" onclick="loginCheck()"/>
-          </form>
-        </div>
-      </div>
-    </div> 
-    <div class="splash left splashLeft" />
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width-device-width, initial-scale:1.0">
+  <title>Cookie Clicker!</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="cookie.svg" type="image/x-icon">
+</head>
+
+<body>
+  <div class="content contentFlex right">
+    <div class="header">
+      <h1>Cookie Clicker</h1>
+    </div>
+    <div class="main">
+      <div class="loginBox">
+        <form id="loginForm" method="post" action="/app/authenticate">
+          <h1 class="hText">Sign in to play!</h1>
+          <h3 class="hText lighter">
+            <a href="/app/createAccount">
+              Don't have an account?
+              <br />
+              <u>Make one here.</u>
+            </a>
+          </h3>
+          <input class="loginField" placeholder="Email address" name="email"/>
+          <input class="loginField" type="password" placeholder="Password" name="pass"/>
+          <button class="submit">
+              Sign in
+          </button>
+        </form>
+      </div>
+  
+    <!-- old code, handled now in server.js 
     <script>
       function loginCheck() {
         var email = document.getElementById("email").value; 
@@ -53,5 +55,6 @@
         }
       }
     </script>
+  --> 
   </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width-device-width, initial-scale:1.0">
     <title>Play! - Cookie Clicker</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <link rel="icon" href="cookie.svg" type="image/x-icon">
   </head>
   <body class="noselect">
@@ -16,24 +16,55 @@
         Click the cookie as fast as you can before the time runs out!
         <br />
         Think you can beat the 
-        <a href="/leaderboard.html"><u>high score</u></a>? 
+        <a href="/app/leaderboard"><u>high score</u></a>? 
         Start clicking to play!
       </h4>
       <div class="gameBox">
-        <div class="gameCookie splashLeft"></div>
+        <div id="cookie" class="gameCookie splashLeft"></div>
         <div class="scoreColumn">
           <div class="countCell">
             <h2 class="hText inline">Cookies: 32</h2>
           </div>
           <div class="countCell">
-            <h2 class="hText inline">Time: 0:10</h2>
+            <h2 id="timer" class="hText inline">Time: 30</h2>
           </div>
           <div class="countCell">
             <h3 class="hText">High score: 32</h3>
           </div>
         </div>
       </div>
-      <div class="loginBox"><a href="/dashboard.html"><u>Back to dashboard</u></a></div>
+      <div class="loginBox"><a href="/app/dashboard"><u>Back to dashboard</u></a></div>
     </div>
+
+    <script>
+      //TODO: Once the game ends we need to send the score to the database
+      function sendResults() {
+        
+      }
+
+      // Timer 
+      // add an event listener to the timer 
+      var cookieButton = document.getElementById("cookie"); 
+      cookieButton.addEventListener("click", countdown); 
+      // Countdown function, when time <= 0, countdown returns false 
+      function countdown() {
+        var seconds = 30; 
+        var counter = setInterval(function() {
+          seconds--; 
+          document.getElementById("timer").innerHTML = "Time: " + seconds;  
+          if (seconds <= 0) {
+            clearInterval(counter); 
+            alert("Out of time"); 
+            // need to make sure this is all we need to do to interact with the database 
+            sendResults(); 
+            return false; 
+          }
+        }, 1000);
+        
+        
+      }; 
+
+    </script>
+
   </body>
 </html>
