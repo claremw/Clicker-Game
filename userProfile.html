@@ -189,16 +189,9 @@
       if (result === "" || result===null || result===undefined) {
         alert("Not a valid username. Please try again.")
       } else {
-        //Updating userinfo
+        //Updating all info
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("PATCH", '/app/update/user/' + currId + '/', false);
-        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xmlHttp.send("email=" + currEmail + "&user=" + result + "&pass=" + currPass);
-
-        
-        //Updating games and logins table
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("PATCH", '/app/update/gamesAndLogins/' + currUser + '/', false);
+        xmlHttp.open("PATCH", '/app/update/user/' + currUser + '/', false);
         xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xmlHttp.send("oldUser="+currUser+"&user=" + result);
 
@@ -215,9 +208,9 @@
         alert("Not a valid username. Please try again.")
       } else {
         //update password
-        xmlHttp.open("PATCH", '/app/update/user/' + currId + '/', false);
+        xmlHttp.open("PATCH", '/app/update/password/' + currUser + '/', false);
         xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xmlHttp.send("email=" + currEmail + "&user=" + currUser + "&pass=" + result);
+        xmlHttp.send("&user=" + currUser + "&pass=" + result);
         console.log(result);
       }
     }
