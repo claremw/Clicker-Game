@@ -19,7 +19,8 @@ All that needs to be done is to clone the repository
 - run "npm run server" to start the server
 - Open up your browser of choice and go to "http://localhost:3000/app"
 
-
+## More Documentation
+https://github.com/jdmar3-comp426/a99-another-team/tree/main/docs
 
 
 
