@@ -232,7 +232,7 @@ app.patch("/app/update/user/:user", (req, res) => {
   //check is user is already taken 
   const stmt0 = db.prepare("SELECT * FROM userinfo WHERE user = ?");
   const info0 = stmt0.get(req.body.user);
-  console.log("info0:" + info0.user);
+  //console.log("info0:" + info0.user);
   if (info0) {
     console.log("Update username: Username is already taken");
     res.json("Username is already taken");
