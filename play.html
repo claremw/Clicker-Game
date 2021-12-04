@@ -30,7 +30,7 @@
             <h2 id="timer" class="hText inline">Time: 30</h2>
           </div>
           <div class="countCell">
-            <h3 class="hText">High score: 32</h3>
+            <h3 id="highScore" class="hText"></h3>
           </div>
         </div>
       </div>
@@ -54,8 +54,14 @@
     console.log(currentUserInfo);
     //Current user's ID #
     var currId = currentUserInfo.id;
-    var currUser = currentUserInfo.user;
+    var currUser = currentUserInfo.currUser; 
 
+    // update the user's high score 
+    // Should we have it display the current user's high score or the overall? 
+    // need to fix this 
+    var highest = 0; 
+    document.getElementById("highScore").innerHTML = "High Score: " + highest; 
+    // then need to make sure it updates every time the timer finishes 
 
     //TODO: Once the game ends we need to send the score to the database
     function sendResults() {
