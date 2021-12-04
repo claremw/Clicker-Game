@@ -102,6 +102,9 @@
     //Current user's ID #
     var currId = currentUserInfo.id;
     var currUser = currentUserInfo.user;
+    var currPass = currentUserInfo.pass;
+    var currEmail = currentUserInfo.email;
+
 
     //This gets the current users data from the scores table and stores it in currentUserScores
     var xmlHttp = new XMLHttpRequest();
@@ -180,14 +183,25 @@
 
     // update username
     function updateUsername() {
-      var xmlHttp = new XMLHttpRequest();
+      
 
       result = prompt("Enter your new username:", "");
-
-      if (result === "") {
+      if (result === "" || result===null || result===undefined) {
         alert("Not a valid username. Please try again.")
       } else {
-        // TODO: send request here
+        //Updating userinfo
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("PATCH", '/app/update/user/' + currId + '/', false);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.send("email=" + currEmail + "&user=" + result + "&pass=" + currPass);
+
+        
+        //Updating games and logins table
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("PATCH", '/app/update/gamesAndLogins/' + currUser + '/', false);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.send("oldUser="+currUser+"&user=" + result);
+
         console.log(result);
       }
     }
@@ -197,10 +211,13 @@
 
       result = prompt("Enter your new password:", "");
 
-      if (result === "") {
+      if (result === "" || result===null || result===undefined) {
         alert("Not a valid username. Please try again.")
       } else {
-        // TODO: send request here
+        //update password
+        xmlHttp.open("PATCH", '/app/update/user/' + currId + '/', false);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.send("email=" + currEmail + "&user=" + currUser + "&pass=" + result);
         console.log(result);
       }
     }
