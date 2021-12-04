@@ -143,31 +143,31 @@ app.post("/app/new", (req, res) => {
 });
 //login post
 app.post("/app/authenticate", (req, res) => {
-  console.log(req.body);
-  const userStmt = db.prepare("SELECT id, user FROM userinfo WHERE email = ?");
-  const userResult = userStmt.get(req.body.email);
-  if (userResult === undefined) {
-    console.log("Login attempt: Email not found in database");
-    return res.redirect('/app');
-    //res.status(404).json({"message": "Email not found (404)"});
-  } else {
-    const passStmt = db.prepare("SELECT pass FROM userinfo where email = ?");
-    const passResult = passStmt.get(req.body.email);
-    if (md5(req.body.pass) != passResult.pass) {
-      console.log("Login attempt: Wrong Password");
-      return res.redirect('/app');
-      //res.status(403).json({"message": "Incorrect password. Access denied (403)"});
-    } else {
-      //res.status(200).json(userResult);
-      req.session.userID = userResult.id;
-      console.log(req.session.userID);
-      //Insert login information to login table
-      const stmt = db.prepare("INSERT INTO logins (user, time) VALUES (?, strftime('%Y-%m-%d %H:%M:%S','now'))");
-      const info = stmt.run(userResult.user);
-      //go to dashboard after logging in
-      return res.redirect('/app/dashboard');
-    }
-  }
+	console.log(req.body);
+	const userStmt = db.prepare("SELECT id, user FROM userinfo WHERE email = ?");
+	const userResult = userStmt.get(req.body.email);
+	if (userResult === undefined) {
+		console.log("Login attempt: Email not found in database");
+		return res.redirect('/app');
+		//res.status(404).json({"message": "Email not found (404)"});
+	} else {
+		const passStmt = db.prepare("SELECT pass FROM userinfo where email = ?");
+		const passResult = passStmt.get(req.body.email);
+		if (md5(req.body.pass) != passResult.pass) {
+			console.log("Login attempt: Wrong Password");
+			return res.redirect('/app');
+			//res.status(403).json({"message": "Incorrect password. Access denied (403)"});
+		} else {
+			//res.status(200).json(userResult);
+			req.session.userID = userResult.id;
+			console.log(req.session.userID);
+			//Insert login information to login table
+			const stmt = db.prepare("INSERT INTO logins (user, time) VALUES (?, strftime('%Y-%m-%d %H:%M:%S','now', 'localtime'))");
+			const info = stmt.run(userResult.user);
+			//go to dashboard after logging in
+			return res.redirect('/app/dashboard');
+		}
+	}
 });
 
 //Logout call
@@ -246,23 +246,27 @@ app.delete("/app/delete/user/:id", (req, res) => {
   console.log("Account Successfuly Deleted");
 });
 
+//Getting the games played of a specific user based on User value
 app.get("/app/games/user/:user", (req, res) => {
   const stmt = db.prepare("SELECT * FROM games WHERE user = ?");
   const info = stmt.all(req.params.user);
   res.status(200).json(info);
 });
 
+//Getting the login history of a specific user based on ID value
 app.get("/app/logins/user/:id", (req, res) => {
   const stmt = db.prepare("SELECT * FROM logins WHERE user = ?");
   const info = stmt.all(req.params.id);
   res.status(200).json(info);
 });
 
+//Getting all of the games history for all users
 app.get("/app/games", (req, res) => {
   const stmt = db.prepare("SELECT * FROM games").all();
   res.status(200).json(stmt);
 });
 
+//Getting all of the login history for all users
 app.get("/app/logins", (req, res) => {
   const stmt = db.prepare("SELECT * FROM logins").all();
   res.status(200).json(stmt);
@@ -273,25 +277,30 @@ app.get("/app/highscore", (req, res) => {
   res.status(200).json(stmt);
 });
 
+//POST method for pushing new game results into Games table
 app.post("/app/score", (req, res) => {
-  const stmt = db.prepare("INSERT INTO games (user, time, score) VALUES (?, strftime('%Y-%m-%d %H:%M:%S','now'), ?)");
-  const info = stmt.run(req.body.user, req.body.score);
-  res.status(201).json({ "message": `1 record created: ID ${info.lastInsertRowid} (201)` });
+	console.log("Game results pushed to database");
+	console.log(req.body);
+	const stmt = db.prepare("INSERT INTO games (user, time, score) VALUES (?, strftime('%Y-%m-%d %H:%M:%S','now','localtime'), ?)");
+	const info = stmt.run(req.body.user, req.body.score);
+	res.status(201).json({ "message": `1 record created: ID ${info.lastInsertRowid} (201)` });
 });
 
+//POST method for storing login history for Users
 app.post("/app/login", (req, res) => {
-  const stmt = db.prepare("INSERT INTO logins (user, time) VALUES (?, strftime('%Y-%m-%d %H:%M:%S','now'))");
-  const info = stmt.run(req.body.user);
-  res.status(201).json({ "message": `1 record created: ID ${info.lastInsertRowid} (201)` });
+	const stmt = db.prepare("INSERT INTO logins (user, time) VALUES (?, strftime('%Y-%m-%d %H:%M:%S','now', 'localtime'))");
+	const info = stmt.run(req.body.user);
+	res.status(201).json({ "message": `1 record created: ID ${info.lastInsertRowid} (201)` });
 });
 
+//GET method for getting all games in order
 app.get("/app/leaderboard/:n", (req, res) => {
   const stmt = db.prepare("SELECT * FROM games ORDER BY score DESC, time ASC LIMIT ?");
   const info = stmt.all(req.params.n);
   res.status(200).json(info);
 });
 
-
+//GET method for getting all games of a specific User in order
 app.get("/app/leaderboard/user/:id/:n", (req, res) => {
   const stmt = db.prepare("SELECT * FROM games WHERE user = ? ORDER BY score DESC, time ASC LIMIT ?");
   const info = stmt.all(req.params.id, req.params.n);
@@ -319,9 +328,6 @@ app.get("/app/leaderboard/user/:id/:n", (req, res) => {
   }
 });
 */
-
-
-
 
 // Default response for any other request
 app.use(function (req, res) {
