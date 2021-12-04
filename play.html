@@ -81,11 +81,11 @@
           if (seconds <= 0) {
             clearInterval(counter); 
             alert("Out of time"); 
-            sendResults(); 
+            sendResults(score); 
             cookieButton.removeEventListener("click", countdown, {once : true}); 
             cookieButton.addEventListener("click", countdown, {once : true}); 
             score = 0; 
-            document.getElementById("timer").innerHTML = "Time: 30"; 
+            document.getElementById("timer").innerHTML = "Time: 0:03"; 
             document.getElementById("scoreCount").innerHTML = "Cookies: 0"; 
             return false;  
           }
