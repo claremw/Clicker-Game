@@ -33,8 +33,8 @@ if (gamesResult === undefined) {
     console.log('Your games table appears to be empty. I will initialize it now.');
     const sqlInit = `
         CREATE TABLE games ( id INTEGER PRIMARY KEY, user TEXT, time TEXT, score INTEGER );
-		INSERT INTO games (user, time, score) VALUES ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 0),
-        ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 300), ('admin', strftime('%Y-%m-%d %H:%M:%S','now'), 150)
+		INSERT INTO games (user, time, score) VALUES ('admin', strftime('%Y-%m-%d %H:%M:%S','now', 'localtime'), 0),
+        ('admin', strftime('%Y-%m-%d %H:%M:%S','now', 'localtime'), 300), ('admin', strftime('%Y-%m-%d %H:%M:%S','now', 'localtime'), 150)
     `;
     db.exec(sqlInit);
     console.log('Your games table has been initialized with three entries containing a user, time, and score.');
@@ -48,7 +48,7 @@ if (loginsResult === undefined) {
     console.log('Your logins table appears to be empty. I will initialize it now.');
     const sqlInit = `
         CREATE TABLE logins ( id INTEGER PRIMARY KEY, user INTEGER, time TEXT);
-		INSERT INTO logins (user, time) VALUES (1, strftime('%s','now'))
+		INSERT INTO logins (user, time) VALUES (1, strftime('%Y-%m-%d %H:%M:%S','now', 'localtime'))
 
     `;
     db.exec(sqlInit);
