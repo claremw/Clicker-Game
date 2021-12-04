@@ -10,7 +10,7 @@
   <body>
     <div class="content contentFlex right">
       <div class="header">
-        <h1>Dashboard</h1>
+        <h1>Dashboard - <span id="username">username</span></h1>
       </div>
       <div class="main">
         <div class="loginBox">
@@ -35,4 +35,13 @@
     </div> 
     <div class="splash left splashLeft" />
   </body>
+  <script>
+    // Get username
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", '/app/getCurrentUser/', false);
+    xmlHttp.send(null);
+    const currentUserInfo = JSON.parse(xmlHttp.responseText);
+    var currUser = currentUserInfo.user;
+    document.getElementById("username").innerHTML = currUser;
+  </script>
 </html>
